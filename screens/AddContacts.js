@@ -3,11 +3,17 @@ import React from 'react'
 import { Octicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const AddContacts = () => {
   return (
     <View style={styles.container}>
         <View style={styles.formContainer}>
+            <View style={styles.imageUploader}>
+                <MaterialCommunityIcons name="file-image-plus-outline" size={40} color="#0066ff" />
+                
+            </View>
+            
             <View style={styles.field}>
                 <Octicons name="person" size={45} color="black" />
                 <TextInput style={styles.input} placeholder='Full name' />
@@ -37,7 +43,7 @@ const styles=StyleSheet.create({
         flex:1,
         backgroundColor:"white",
         justifyContent:"center",
-        
+        alignItems:"center"
     },
     field:{
         flexDirection:"row",
@@ -83,6 +89,19 @@ const styles=StyleSheet.create({
     buttonTitle:{
         color:"white",
         fontWeight:"bold",
+    },
+    imageUploader:{
+        flexDirection:"row",
+        alignItems:"center",
+        justifyContent:"center",
+        marginBottom:50,
+        width:100,
+        height:100,
+        borderRadius:75,
+        borderWidth:1,
+        borderColor:"#1a75ff",
+        backgroundColor:"#e6f0ff",
+        elevation:3,
     }
 })
 

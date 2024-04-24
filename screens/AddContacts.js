@@ -1,18 +1,53 @@
-import { View, Text,StyleSheet, TextInput, TouchableOpacity} from 'react-native'
-import React from 'react'
+import { View, Text,StyleSheet, TextInput, TouchableOpacity, Image} from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { Octicons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import * as ImagePicker from 'expo-image-picker'
+
 
 const AddContacts = () => {
+    const [hasGalleryPermission,setHasGalleryPermission]=useState(null);
+    const [image,setImage]=useState(null)
+    useEffect(()=>{
+        (async ()=>{
+            const galleryStatus=await ImagePicker.requestMediaLibraryPermissionsAsync();
+            setHasGalleryPermission(galleryStatus.status==='granted');
+        })();
+    },[])
+
+    const pickImage=async ()=>{
+        let result=await ImagePicker.launchImageLibraryAsync({
+            mediaTypes:ImagePicker.MediaTypeOptions.Images,
+            allowsEditing:true,
+            aspect:[4,3],
+            quality:1
+        })
+        console.log(result);
+        if(!result.canceled){
+            const imageObject = result.assets[0]; // Access the first object in assets
+            const imageUri = imageObject.uri; // Extract the URI from the object
+            console.log("Image URI:", imageUri);
+            setImage(imageUri);
+        }
+        
+    }
+  
+    if(hasGalleryPermission===false){
+        return(
+            <Text>No permission granted</Text>
+        );
+    }
   return (
     <View style={styles.container}>
         <View style={styles.formContainer}>
-            <View style={styles.imageUploader}>
-                <MaterialCommunityIcons name="file-image-plus-outline" size={40} color="#0066ff" />
-                
-            </View>
+            <TouchableOpacity onPress={pickImage} activeOpacity={0.8}>
+                <View style={styles.imageUploader}>
+                    <MaterialCommunityIcons name="file-image-plus-outline" size={40} color="#0066ff" />
+                </View>
+            </TouchableOpacity>
+            
             
             <View style={styles.field}>
                 <Octicons name="person" size={45} color="black" />
@@ -32,6 +67,11 @@ const AddContacts = () => {
                     <Text style={styles.buttonTitle}>Add</Text>
                 </TouchableOpacity>
             </View>
+
+            {
+                
+                image && <Image source={{uri:image}} style={{width:100,height:100}} />
+            }
             
         </View>
     </View>
@@ -103,6 +143,6 @@ const styles=StyleSheet.create({
         backgroundColor:"#e6f0ff",
         elevation:3,
     }
-})
+}) 
 
 export default AddContacts

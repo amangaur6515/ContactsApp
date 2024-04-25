@@ -20,7 +20,7 @@ const AddContacts = ({route}) => {
 
     const [hasGalleryPermission,setHasGalleryPermission]=useState(null);
     const [image,setImage]=useState(null)
-    const [errors,setErrors]=useState({})
+    const [errors,setErrors]=useState({}) 
 
     const validateForm=()=>{
         const errors={}
@@ -47,7 +47,7 @@ const AddContacts = ({route}) => {
             setLandlineNumber('')
             setImage(null)
             setErrors({})
-            navigation.navigate('Contacts List',{reloadComponent:true})
+            navigation.navigate('Contacts List')
         }
     }
     useEffect(()=>{
@@ -84,7 +84,11 @@ const AddContacts = ({route}) => {
         <View style={styles.formContainer}>
             <TouchableOpacity onPress={pickImage} activeOpacity={0.8}>
                 <View style={styles.imageUploader}>
-                    <MaterialCommunityIcons name="file-image-plus-outline" size={40} color="#0066ff" />
+
+                    {
+                        image?<Image source={{uri:image}} style={[styles.avatar,{width:"100%",height:80}]}  />:<MaterialCommunityIcons name="file-image-plus-outline" size={40} color="#0066ff" />
+                    }
+                    
                 </View>
             </TouchableOpacity>
             
@@ -201,6 +205,11 @@ const styles=StyleSheet.create({
         textAlign:"center",
         justifyContent:'center',
         alignItems:"center"
+    },
+    avatar: {
+        width: 80,
+        height: 80,
+        borderRadius: 60, 
     }
 }) 
 

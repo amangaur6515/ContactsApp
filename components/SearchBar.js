@@ -1,15 +1,31 @@
-import { View, Text ,TextInput,StyleSheet} from 'react-native'
-import React from 'react'
+import { View, Text ,TextInput,StyleSheet, TouchableOpacity} from 'react-native'
+import React, { useState } from 'react'
+import { useNavigation } from '@react-navigation/native';
+
 
 const SearchBar = () => {
+  const [searchTerm,setSearchTerm]=useState("");
+  const navigation=useNavigation();
+  //console.log("from searchbar",searchTerm)
+  const onSearch=(text)=>{
+    setSearchTerm(text)
+    //console.log("transfer",text)
+    navigation.navigate('Contacts List',{data:text})
+  }
   return (
-    <View style={styles.searchContainer}>
+    <TouchableOpacity  style={styles.touchable}>
+      <View style={styles.searchContainer}>
                 <TextInput
                   style={styles.searchInput}
                   placeholder="Search "
                   placeholderTextColor="#1a75ff"
+                  value={searchTerm}
+                  onChangeText={onSearch}
+                  
                 />
-    </View>
+      </View>
+    </TouchableOpacity>
+    
   )
 }
 
@@ -33,6 +49,9 @@ const styles=StyleSheet.create({
         
         
       },
+      touchable:{
+        width:"100%"
+      }
 });
 
 export default SearchBar

@@ -1,31 +1,53 @@
 import { View, Text ,StyleSheet, Pressable, TouchableOpacity,FlatList} from 'react-native'
 import React from 'react'
 import { AntDesign } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useState,useEffect } from 'react';
 import db from '../db/db';
 import { getContacts } from '../db/contacts';
 import ContactsCard from '../components/ContactsCard';
 import { initDatabase } from '../db/db';
-const ContactsList = ({reloadComponent}) => { 
+const ContactsList = ({route}) => { 
+    const [searchTerm,setSearchTerm]=useState("")                                   
     const [contacts, setContacts] = useState([]);
-    const [refresh,setRefresh]=useState(false);
+    const {data}=route.params || {}
+
+    console.log("from contacts list",searchTerm)
     const navigation=useNavigation();
+
+    useEffect(() => {
+      setSearchTerm(data);
+    }, [data]);
+
+    const loadData = async () => {
+      try {
+        await initDatabase(db);
+        const contacts = await getContacts(db);
+        const sortedContacts = contacts.sort((a, b) => a.fullName.localeCompare(b.fullName));
+        setContacts(sortedContacts);
+        console.log("Contacts loaded:", sortedContacts);
+      } catch (error) {
+        console.error(error);
+      }
+    };
     
     useEffect(() => {
-        const loadData = async () => {
-          try {
-            await initDatabase(db);
-            const contacts = await getContacts(db);
-            setContacts(contacts);
-            console.log("Contacts loaded:", contacts);
-          } catch (error) {
-            console.error(error);
-          }
-        };
+      if (searchTerm) {
+        const filteredContacts = contacts.filter((contact) =>
+          contact.fullName.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setContacts(filteredContacts);
+      } else {
         loadData();
-        setRefresh(reloadComponent)
-      }, [refresh]);
+      }
+    }, [searchTerm]);
+
+    useFocusEffect(
+      React.useCallback(() => {
+        loadData();
+      }, [])
+    );
+ 
 
     const goToAddContacts=()=>{
         navigation.navigate('Add Contacts',{data:""})
@@ -58,7 +80,7 @@ const styles=StyleSheet.create({
         backgroundColor:"white",
         flex:1,
         justifyContent:'center',
-        position: "relative", // Make the container relative
+        position: "relative", 
     },
     addContainer:{
         flex:1,
@@ -66,9 +88,9 @@ const styles=StyleSheet.create({
         justifyContent:'flex-end',
         marginVertical:40,
         marginHorizontal:30,
-        position: "absolute", // Position absolutely
-        bottom: 20, // Adjust bottom spacing as needed
-        right: 20, // Adjust right spacing as needed
+        position: "absolute", 
+        bottom: 5, 
+        right: 5, 
     },
     
     

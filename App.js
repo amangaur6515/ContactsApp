@@ -7,6 +7,7 @@ import AddContacts from './screens/AddContacts';
 import { useEffect } from 'react';
 import db,{initDatabase} from './db/db';
 import { useState } from 'react';
+import FavouriteIcon from './components/FavouriteIcon';
 
 
 const Stack=createNativeStackNavigator();
@@ -50,7 +51,17 @@ export default function App() {
           }}
         />
 
-        <Stack.Screen name='Add Contacts' component={AddContacts} />
+        <Stack.Screen name='Add Contacts' component={AddContacts} 
+          options={
+            {
+              headerRight:()=>{
+                return(
+                  <FavouriteIcon/>
+                );
+              }
+            }
+          }
+        />
         
       </Stack.Navigator>
    </NavigationContainer>

@@ -10,7 +10,7 @@ const db = SQLite.openDatabase("ContactsAppDb");
 export function initDatabase(db) {
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS Contacts (id INTEGER PRIMARY KEY AUTOINCREMENT, imageUri TEXT,fullName TEXT,phoneNumber TEXT, landlineNumber Text);",
+        "CREATE TABLE IF NOT EXISTS Contacts2 (id INTEGER PRIMARY KEY AUTOINCREMENT, imageUri TEXT,fullName TEXT,phoneNumber TEXT, landlineNumber Text, isFavourite INTEGER DEFAULT 0);",
         [],
         () => {
           console.log("database initialized successfully");

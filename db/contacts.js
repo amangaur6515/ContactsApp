@@ -5,7 +5,7 @@ export const getContacts = async (db) => {
         db.transaction(
           (tx) => {
             tx.executeSql(
-              "SELECT * FROM Contacts",
+              "SELECT * FROM Contacts2",
               [],
               (_, results) => {
                 for (let i = 0; i < results.rows.length; i++) {
@@ -25,7 +25,7 @@ export const getContacts = async (db) => {
           }
         );
       });
-      console.log("Retrieved contacts:", contacts);
+      //console.log("Retrieved contacts:", contacts);
       return contacts;
     } catch (error) {
       console.error("Failed to get Contacts from database:", error);
@@ -34,17 +34,19 @@ export const getContacts = async (db) => {
   };
 
 
-export const addContacts = async (db) => {
+export const addContacts = async (db,contact) => {
     const values = [
-      "path_to_image",
-      "Aman Gaur",
-      "1234567890",
-      "123456"
+      contact.imageUri,
+      contact.fullName,
+      contact.phoneNumber,
+      contact.landlineNumber,
+      contact.isFavourite
+      
     ];
   
     try {
       await db.transaction(async (tx) => {
-        await tx.executeSql("INSERT INTO Contacts (imageUri, fullName, phoneNumber, landlineNumber) VALUES (?, ?, ?, ?);", values);
+        await tx.executeSql("INSERT INTO Contacts2 (imageUri, fullName, phoneNumber, landlineNumber,isFavourite) VALUES (?, ?, ?, ?,?);", values);
         console.log("Insert successful");
       });
     } catch (error) {

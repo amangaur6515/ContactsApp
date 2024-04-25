@@ -6,15 +6,16 @@ import { useState,useEffect } from 'react';
 import db from '../db/db';
 import { getContacts } from '../db/contacts';
 import ContactsCard from '../components/ContactsCard';
-
-const ContactsList = () => { 
+import { initDatabase } from '../db/db';
+const ContactsList = ({reloadComponent}) => { 
     const [contacts, setContacts] = useState([]);
+    const [refresh,setRefresh]=useState(false);
     const navigation=useNavigation();
-
+    
     useEffect(() => {
         const loadData = async () => {
           try {
-            //await initDatabase(db);
+            await initDatabase(db);
             const contacts = await getContacts(db);
             setContacts(contacts);
             console.log("Contacts loaded:", contacts);
@@ -23,10 +24,11 @@ const ContactsList = () => {
           }
         };
         loadData();
-      }, []);
+        setRefresh(reloadComponent)
+      }, [refresh]);
 
     const goToAddContacts=()=>{
-        navigation.navigate('Add Contacts')
+        navigation.navigate('Add Contacts',{data:""})
     }
   return (
     <View style={styles.container}>

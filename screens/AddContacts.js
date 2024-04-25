@@ -5,11 +5,51 @@ import { Feather } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker'
+import { addContacts } from '../db/contacts';
+import db from '../db/db';
+import { useNavigation } from '@react-navigation/native';
+
+const AddContacts = ({route}) => {
+    const [fullName,setFullName]=useState("");
+    const [mobileNumber,setMobileNumber]=useState("");
+    const [landlineNumber,setLandlineNumber]=useState("");
+    const {data}=route.params;
+    //console.log(data)
+    const navigation=useNavigation();
 
 
-const AddContacts = () => {
     const [hasGalleryPermission,setHasGalleryPermission]=useState(null);
     const [image,setImage]=useState(null)
+    const [errors,setErrors]=useState({})
+
+    const validateForm=()=>{
+        const errors={}
+        if(!fullName) errors.fullName="Name is required";
+        if(!mobileNumber) errors.mobileNumber="Mobile number is required"
+        else if(parseFloat(mobileNumber)<0 || mobileNumber.length<10 || mobileNumber.length >10) errors.mobileNumber="Number must be 10 digit"
+
+        setErrors(errors)
+        return Object.keys(errors).length===0;
+    }
+    const handleAdd=()=>{
+        if(validateForm()){
+            const contact={
+                imageUri: image,
+                fullName,
+                phoneNumber:mobileNumber,
+                landlineNumber,
+                isFavourite:data?1:0
+            }
+            console.log(contact);
+            addContacts(db,contact);
+            setFullName('')
+            setMobileNumber('')
+            setLandlineNumber('')
+            setImage(null)
+            setErrors({})
+            navigation.navigate('Contacts List',{reloadComponent:true})
+        }
+    }
     useEffect(()=>{
         (async ()=>{
             const galleryStatus=await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -51,27 +91,39 @@ const AddContacts = () => {
             
             <View style={styles.field}>
                 <Octicons name="person" size={45} color="black" />
-                <TextInput style={styles.input} placeholder='Full name' />
+                <TextInput style={styles.input} placeholder='Full name' value={fullName} onChangeText={setFullName} />
+                
             </View>
+            {
+                errors.fullName?<Text style={{color:"red"}}>*{errors.fullName}</Text>:null
+            }
+           
             <View style={styles.field}>
                 <Feather name="phone" size={35} color="black" />
-                <TextInput style={styles.input} placeholder='Mobile number'/>
+                <TextInput style={styles.input} placeholder='Mobile number' keyboardType='numeric' value={mobileNumber} onChangeText={setMobileNumber}/>
+               
             </View>
+            {
+                errors.mobileNumber?<Text style={{color:"red"}}>*{errors.mobileNumber}</Text>:null
+            }
             <View style={styles.field}>
                 <Entypo name="landline" size={35} color="black" />
-                <TextInput style={styles.input} placeholder='Landline number'/>
+                <TextInput style={styles.input} placeholder='Landline number' keyboardType='numeric' value={landlineNumber} onChangeText={setLandlineNumber}/>
+                {
+                    errors.landlineNumber?<Text style={{color:"red"}}>{errors.landlineNumber}</Text>:null
+                }
             </View>
             
             <View style={styles.buttonContainer} >
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={handleAdd}>
                     <Text style={styles.buttonTitle}>Add</Text>
                 </TouchableOpacity>
             </View>
 
-            {
+            {/* {
                 
                 image && <Image source={{uri:image}} style={{width:100,height:100}} />
-            }
+            } */}
             
         </View>
     </View>
@@ -107,7 +159,7 @@ const styles=StyleSheet.create({
         borderWidth:1,
         padding:10,
         borderColor:"black",
-        marginBottom:20,
+        marginBottom:10,
         width:310,
         marginLeft:20,
         
@@ -142,6 +194,13 @@ const styles=StyleSheet.create({
         borderColor:"#1a75ff",
         backgroundColor:"#e6f0ff",
         elevation:3,
+    },
+    error:{
+     
+        flexDirection:"column",
+        textAlign:"center",
+        justifyContent:'center',
+        alignItems:"center"
     }
 }) 
 

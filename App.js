@@ -13,7 +13,11 @@ import StackNavigator from './components/StackNavigator';
 import Favourites from './screens/Favourites';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
+
+
+const Drawer=createDrawerNavigator();
 const Tab = createMaterialBottomTabNavigator();
 const Stack=createNativeStackNavigator();
 
@@ -73,21 +77,23 @@ export default function App() {
           </Stack.Navigator> */}
 
           <Tab.Navigator
-            barStyle={{ backgroundColor: "white", activeBackgroundColor: "white" }} // Set activeBackgroundColor to transparent
-            activeColor="#ffffff"
-            shifting={true}
+            barStyle={{backgroundColor:"white",paddingBottom:5  }} // Set activeBackgroundColor to transparent,
+            activeColor="green"
+           
             
           >
             <Tab.Screen name='Contacts' component={StackNavigator}
             options={{
               tabBarLabel:"",
               tabBarIcon: ({ color }) => (
-                <MaterialIcons name="contacts" size={30} color="blue" style={styles.tabBarIcon} />
-              )
+                <MaterialIcons name="contacts" size={30} color="blue" style={styles.tabBarIcon}/>
+              ),
+              
             }}
              />
             <Tab.Screen name='Favourites' component={Favourites} 
               options={{
+                
                 tabBarLabel:"",
                 tabBarIcon: ({ color }) => (
                   <MaterialIcons name="favorite" size={30} color="blue" style={styles.tabBarIcon}/>
@@ -95,6 +101,7 @@ export default function App() {
               }}
             />
           </Tab.Navigator>
+
       </NavigationContainer>
    </>
   );
@@ -103,9 +110,9 @@ export default function App() {
 const styles = StyleSheet.create({
   tabBarIcon: {
     width: 100, // Set the width to increase icon size
-    height: 100, // Set the height to increase icon size
+    height: 40, // Set the height to increase icon size
     textAlign: 'center', // Center the icon horizontally
-    lineHeight: 50, // Center the icon vertically
+    lineHeight: 30, // Center the icon vertically
   },
   
 });

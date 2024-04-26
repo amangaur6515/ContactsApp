@@ -1,7 +1,7 @@
 import { View, Text ,TextInput,StyleSheet, TouchableOpacity} from 'react-native'
 import React, { useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
-
+import { Octicons } from '@expo/vector-icons';
 
 const SearchBar = () => {
   const [searchTerm,setSearchTerm]=useState("");
@@ -13,18 +13,23 @@ const SearchBar = () => {
     navigation.navigate('Contacts List',{data:text})
   }
   return (
-    <TouchableOpacity  style={styles.touchable}>
+    <View style={styles.touchable}>
+      <TouchableOpacity  >
+      <Octicons name="three-bars" size={24} color="black" />
+      </TouchableOpacity>
       <View style={styles.searchContainer}>
                 <TextInput
                   style={styles.searchInput}
                   placeholder="Search "
-                  placeholderTextColor="#1a75ff"
+                  placeholderTextColor="black"
                   value={searchTerm}
                   onChangeText={onSearch}
                   
                 />
       </View>
-    </TouchableOpacity>
+    </View>
+    
+    
     
   )
 }
@@ -46,11 +51,14 @@ const styles=StyleSheet.create({
         borderRadius: 15,
         padding:10,
         margin:10,
-        
+        marginLeft:15
         
       },
       touchable:{
-        width:"100%"
+        flexDirection:"row",
+        justifyContent:"center",
+        alignItems:"center",
+        
       }
 });
 

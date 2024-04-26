@@ -7,6 +7,7 @@ import db from '../db/db';
 import { getContacts } from '../db/contacts';
 import ContactsCard from '../components/ContactsCard';
 import { initDatabase } from '../db/db';
+
 const ContactsList = ({route}) => { 
     const [searchTerm,setSearchTerm]=useState("")                                   
     const [contacts, setContacts] = useState([]);
@@ -89,8 +90,8 @@ const styles=StyleSheet.create({
         marginVertical:40,
         marginHorizontal:30,
         position: "absolute", 
-        bottom: 5, 
-        right: 5, 
+        bottom: -10, 
+        right: 0, 
     },
     
     

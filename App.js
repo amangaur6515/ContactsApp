@@ -14,7 +14,7 @@ import Favourites from './screens/Favourites';
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 
 const Drawer=createDrawerNavigator();
@@ -23,7 +23,7 @@ const Stack=createNativeStackNavigator();
 
 
 
-export default function App() {
+const App=() =>{
   const [contacts, setContacts] = useState([]);
   
 
@@ -78,13 +78,13 @@ export default function App() {
 
           <Tab.Navigator
             barStyle={{backgroundColor:"white",paddingBottom:5  }} // Set activeBackgroundColor to transparent,
-            activeColor="green"
+            activeColor="blue"
            
             
           >
             <Tab.Screen name='Contacts' component={StackNavigator}
             options={{
-              tabBarLabel:"",
+              tabBarLabel:"Contacts",
               tabBarIcon: ({ color }) => (
                 <MaterialIcons name="contacts" size={30} color="blue" style={styles.tabBarIcon}/>
               ),
@@ -94,7 +94,7 @@ export default function App() {
             <Tab.Screen name='Favourites' component={Favourites} 
               options={{
                 
-                tabBarLabel:"",
+                tabBarLabel:"Favourites",
                 tabBarIcon: ({ color }) => (
                   <MaterialIcons name="favorite" size={30} color="blue" style={styles.tabBarIcon}/>
                 )
@@ -116,3 +116,5 @@ const styles = StyleSheet.create({
   },
   
 });
+
+export default gestureHandlerRootHOC(App);

@@ -1,5 +1,5 @@
 import { View, Text ,StyleSheet, Pressable, TouchableOpacity,FlatList} from 'react-native'
-import React from 'react'
+import React,{useRef} from 'react'
 import { AntDesign } from '@expo/vector-icons';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useState,useEffect } from 'react';
@@ -7,6 +7,9 @@ import db from '../db/db';
 import { getContacts } from '../db/contacts';
 import ContactsCard from '../components/ContactsCard';
 import { initDatabase } from '../db/db';
+import { SwipeListView } from 'react-native-swipe-list-view';
+import { FontAwesome } from '@expo/vector-icons';
+
 
 const ContactsList = ({route}) => { 
     const [searchTerm,setSearchTerm]=useState("")                                   
@@ -53,15 +56,59 @@ const ContactsList = ({route}) => {
     const goToAddContacts=()=>{
         navigation.navigate('Add Contacts',{data:""})
     }
+
+  
+
+  
+  const renderHiddenItem = ({ item }, rowMap) => (
+    <View style={[styles.rowBack]}>
+      <TouchableOpacity
+        style={[ styles.deleteContainer]}
+        onPress={() => handleDelete(item)}
+      >
+        <FontAwesome name="trash" size={30} color="white" />
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[styles.editContainer]}
+        onPress={() => handleEdit(item)}
+      >
+        <AntDesign name="edit" size={30} color="white" />
+      </TouchableOpacity>
+    </View>
+  );
+
+  const onSwipeValueChange = (swipeData) => {
+    const { key, value } = swipeData;
+    if (value !== 0) {
+      closeAllSwipeables(swipeableRefs.current[key]);
+    }
+  };
+
   return (
     <View style={styles.container}>
-        <FlatList 
+        {/* <FlatList 
             data={contacts}
             renderItem={({item})=>{
                 return(
-                    <ContactsCard item={item}/>
+                    <ContactsCard key={item.id} item={item}/>
                 );
             }}
+            closeAllSwipeables={() => closeAllSwipeables(swipeableRefs.current[index])}
+          swipeableRef={(ref) => (swipeableRefs.current[index] = ref)}
+            keyExtractor={(item)=>item.id}
+        /> */}
+        <SwipeListView
+          data={contacts}
+          renderItem={({item})=>{
+            return(
+              <ContactsCard key={item.id} item={item}/>
+            )
+          }}
+          renderHiddenItem={renderHiddenItem}
+          
+          leftOpenValue={190} // Width of the left action buttons
+          keyExtractor={(item)=>item.id}
+          
         />
         <View style={styles.addContainer}>
             <View style={styles.addIcon }>
@@ -93,6 +140,30 @@ const styles=StyleSheet.create({
         bottom: -10, 
         right: 0, 
     },
+    deleteContainer:{
+      backgroundColor:"red",
+      width:90,
+      justifyContent:"center",
+      alignItems:"center",
+      height:"100%",
+      marginRight:2,
+      borderRadius:10
+    },
+    editContainer:{
+      backgroundColor:"#1a75ff",
+      width:90,
+      justifyContent:"center",
+      alignItems:"center",
+      height:"100%",
+      borderRadius:10
+    },
+
+    rowBack:{
+      flexDirection:"row",
+      marginTop:"10%",
+      marginLeft:"2%"
+      
+    }
     
     
 })

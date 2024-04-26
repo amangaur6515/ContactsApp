@@ -59,9 +59,10 @@ const Favourites = () => {
             data={contacts}
             renderItem={({item})=>{
                 return(
-                    <ContactsCard item={item}/>
+                    <ContactsCard key={item.id} item={item}/>
                 );
             }}
+            keyExtractor={(item)=>item.id}
         />
     </View>
     

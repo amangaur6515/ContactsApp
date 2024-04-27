@@ -1,6 +1,6 @@
 import { View, Text ,TextInput,StyleSheet, TouchableOpacity} from 'react-native'
 import React, { useState } from 'react'
-import { useNavigation } from '@react-navigation/native';
+import { DrawerActions, useNavigation } from '@react-navigation/native';
 import { Octicons } from '@expo/vector-icons';
 
 const SearchBar = () => {
@@ -12,9 +12,12 @@ const SearchBar = () => {
     //console.log("transfer",text)
     navigation.navigate('Contacts List',{data:text})
   }
+  const handleThreeBarPress=()=>{
+    navigation.dispatch(DrawerActions.openDrawer())
+  }
   return (
     <View style={styles.touchable}>
-      <TouchableOpacity  >
+      <TouchableOpacity onPress={handleThreeBarPress} >
       <Octicons name="three-bars" size={24} color="black" />
       </TouchableOpacity>
       <View style={styles.searchContainer}>

@@ -15,6 +15,8 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import TabNavigator from './components/TabNavigator';
+import DrawerNavigator from './components/DrawerNavigator';
 
 
 const Drawer=createDrawerNavigator();
@@ -76,12 +78,13 @@ const App=() =>{
             
           </Stack.Navigator> */}
 
-          <Tab.Navigator
+          {/* <Tab.Navigator
             barStyle={{backgroundColor:"white",paddingBottom:5  }} // Set activeBackgroundColor to transparent,
             activeColor="blue"
            
             
           >
+            
             <Tab.Screen name='Contacts' component={StackNavigator}
             options={{
               tabBarLabel:"Contacts",
@@ -100,7 +103,22 @@ const App=() =>{
                 )
               }}
             />
-          </Tab.Navigator>
+          </Tab.Navigator> */}
+
+          <Drawer.Navigator>
+            <Drawer.Screen name='Home' component={TabNavigator}
+              options={{
+                headerShown:false
+              }}
+             />
+            <Drawer.Screen name='Favourites' component={Favourites}
+              options={
+                {
+                  headerShown:false
+                }
+              }
+            />
+          </Drawer.Navigator>
 
       </NavigationContainer>
    </>

@@ -6,10 +6,12 @@ import db, {initDatabase}from '../db/db';
 import {getContacts} from '../db/contacts';
 import ContactsCard from '../components/ContactsCard';
 import { Octicons } from '@expo/vector-icons';
-
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { DrawerActions,useNavigation } from '@react-navigation/native';
 const Favourites = () => {
   const [contacts, setContacts] = useState([]);
   const [searchTerm,setSearchTerm]=useState("")
+  const navigation=useNavigation()
   const handleSearch = (text) => {
     setSearchTerm(text);
     if (text === '') {
@@ -39,11 +41,18 @@ const Favourites = () => {
     loadData()
   },[])
 
+  const handleThreeBarPress=()=>{
+    navigation.dispatch(DrawerActions.openDrawer())
+  }
+
   return (
     <View style={styles.container}>
 
       <View style={styles.header}>
-        <Octicons name="three-bars" size={24} color="black" style={styles.icon}/>
+        <TouchableOpacity onPress={handleThreeBarPress}>
+          <Octicons name="three-bars" size={24} color="black" style={styles.icon}/>
+        </TouchableOpacity>
+        
         <View style={styles.searchContainer}>
           <TextInput
             value={searchTerm}

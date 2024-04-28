@@ -1,10 +1,10 @@
-import { View, Text ,StyleSheet, Pressable, TouchableOpacity,FlatList} from 'react-native'
+import { View, Text ,StyleSheet, Pressable, TouchableOpacity,FlatList,Alert} from 'react-native'
 import React,{useRef} from 'react'
 import { AntDesign } from '@expo/vector-icons';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useState,useEffect } from 'react';
 import db from '../db/db';
-import { getContacts } from '../db/contacts';
+import { getContacts ,deleteContact} from '../db/contacts';
 import ContactsCard from '../components/ContactsCard';
 import { initDatabase } from '../db/db';
 import { SwipeListView } from 'react-native-swipe-list-view';
@@ -57,7 +57,30 @@ const ContactsList = ({route}) => {
         navigation.navigate('Add Contacts',{data:""})
     }
 
+    const handleDelete=async (item)=>{
+      Alert.alert(
+        "Delete Contact",
+        `Are you sure you want to delete ${item.fullName}?`,
+        [
+          {
+            text: "Cancel",
+            onPress: () => console.log("Cancel Pressed"),
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => deleteContactFromDB(item) } 
+        ]
+      );
+    }
   
+    const deleteContactFromDB = async (item) => {
+      try {
+        await deleteContact(db, item.id);
+        // Update the state or reload the data after deletion
+        loadData();
+      } catch (error) {
+        console.error("Failed to delete contact:", error);
+      }
+    };
 
   
   const renderHiddenItem = ({ item }, rowMap) => (

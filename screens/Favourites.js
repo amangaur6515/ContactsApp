@@ -7,7 +7,7 @@ import {getContacts} from '../db/contacts';
 import ContactsCard from '../components/ContactsCard';
 import { Octicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { DrawerActions,useNavigation } from '@react-navigation/native';
+import { DrawerActions,useNavigation,useFocusEffect } from '@react-navigation/native';
 const Favourites = () => {
   const [contacts, setContacts] = useState([]);
   const [searchTerm,setSearchTerm]=useState("")
@@ -37,9 +37,12 @@ const Favourites = () => {
     }
   };
 
-  useEffect(()=>{
-    loadData()
-  },[])
+  useFocusEffect(
+    React.useCallback(() => {
+      loadData();
+    }, [])
+  );
+
 
   const handleThreeBarPress=()=>{
     navigation.dispatch(DrawerActions.openDrawer())

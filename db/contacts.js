@@ -53,3 +53,36 @@ export const addContacts = async (db,contact) => {
       console.error("Failed to insert data:", error);
     }
   };
+
+
+  export const deleteContact = async (db, id) => {
+    try {
+      await db.transaction(async (tx) => {
+        await tx.executeSql("DELETE FROM Contacts2 WHERE id = ?;", [id]);
+        console.log("Contact deleted successfully");
+      });
+    } catch (error) {
+      console.error("Failed to delete contact:", error);
+      throw error;
+    }
+  };
+
+  
+  export const editContact = async (db, contact) => {
+    const { id, imageUri, fullName, phoneNumber, landlineNumber, isFavourite } = contact;
+    const values = [imageUri, fullName, phoneNumber, landlineNumber, isFavourite, id];
+  
+    try {
+      await db.transaction(async (tx) => {
+        await tx.executeSql(
+          "UPDATE Contacts2 SET imageUri = ?, fullName = ?, phoneNumber = ?, landlineNumber = ?, isFavourite = ? WHERE id = ?;",
+          values
+        );
+        console.log("Contact updated successfully");
+      });
+    } catch (error) {
+      console.error("Failed to update contact:", error);
+      throw error;
+    }
+  };
+  

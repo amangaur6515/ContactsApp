@@ -5,6 +5,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const FixAndManage = () => {
   return (
@@ -22,24 +23,29 @@ const FixAndManage = () => {
       >
         Fix & Manage
       </Text>
+
       <View style={styles.list}>
-        <View style={styles.listItem}>
+        <TouchableOpacity style={styles.listItem} activeOpacity={0.5}>
           <AntDesign name="cloudupload" size={30} color="blue" />
           <Text style={styles.listItemText}>Sync to cloud</Text>
-        </View>
-        <View style={styles.listItem}>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.listItem} activeOpacity={0.5}>
           <Entypo name="trash" size={30} color="blue" />
           <Text style={styles.listItemText}>Clear data</Text>
-        </View>
-        <View style={styles.listItem}>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.listItem} activeOpacity={0.5}>
           <FontAwesome5 name="file-export" size={30} color="blue" />
           <Text style={styles.listItemText}>Export</Text>
-        </View>
-        <View style={styles.listItem}>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.listItem} activeOpacity={0.5}>
           <Octicons name="blocked" size={30} color="blue" />
           <Text style={styles.listItemText}>Blocked numbers</Text>
-        </View>
+        </TouchableOpacity>
       </View>
+
       <View style={styles.footer}>
         <View>
           <Text style={styles.footerText}>Made with ❤️ by Aman Gaur</Text>
@@ -80,7 +86,7 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 20,
     flexDirection: "row",
-    borderRadius: 10,
+    borderRadius: 15,
     borderWidth: 1,
     backgroundColor: "#ccd9ff",
     elevation: 9,

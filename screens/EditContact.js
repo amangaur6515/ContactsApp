@@ -124,10 +124,7 @@ const EditContact = ({ route }) => {
           <TouchableOpacity onPress={pickImage} activeOpacity={0.8}>
             <View style={styles.imageUploader}>
               {image ? (
-                <Image
-                  source={{ uri: image }}
-                  style={[styles.avatar, { width: "100%", height: 80 }]}
-                />
+                <Image source={{ uri: image }} style={[styles.avatar]} />
               ) : (
                 <MaterialCommunityIcons
                   name="file-image-plus-outline"
@@ -259,9 +256,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   avatar: {
-    width: 80,
-    height: 80,
-    borderRadius: 60,
+    width: "100%",
+    height: "100%",
+    borderRadius: 75,
   },
   favouriteIconContainer: {
     backgroundColor: "white",

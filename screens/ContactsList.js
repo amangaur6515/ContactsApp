@@ -82,6 +82,9 @@ const ContactsList = ({route}) => {
       }
     };
 
+  const handleEdit=(item)=>{
+    navigation.navigate('Edit Contact',{contact:item})
+  }
   
   const renderHiddenItem = ({ item }, rowMap) => (
     <View style={[styles.rowBack]}>

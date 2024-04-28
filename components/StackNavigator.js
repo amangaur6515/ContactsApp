@@ -5,6 +5,7 @@ import ContactsList from '../screens/ContactsList';
 import AddContacts from '../screens/AddContacts';
 import FavouriteIcon from './FavouriteIcon';
 import SearchBar from './SearchBar';
+import EditContact from '../screens/EditContact';
 
 const Stack=createNativeStackNavigator();
 const StackNavigator = () => {
@@ -37,6 +38,17 @@ const StackNavigator = () => {
                       <FavouriteIcon/>
                     );
                   }
+                }
+              }
+            />
+            <Stack.Screen name='Edit Contact' component={EditContact} 
+              options={
+                {
+                  // headerRight:()=>{
+                  //   return(
+                  //     //<FavouriteIcon/>
+                  //   );
+                  // }
                 }
               }
             />

@@ -16,7 +16,7 @@ const ContactsCard = ({ item }) => {
     navigation.navigate("Contact Info", { contact: item });
   };
   return (
-    <TouchableOpacity onPress={goToContactInfo} activeOpacity={0.99}>
+    <TouchableOpacity onPress={goToContactInfo} activeOpacity={0.978}>
       <View style={styles.card}>
         <View style={styles.infoContainer}>
           <View style={styles.image}>

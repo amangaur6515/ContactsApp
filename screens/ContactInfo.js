@@ -13,7 +13,14 @@ const ContactInfo = ({ route }) => {
     <View style={styles.container}>
       <View style={styles.infoContainer}>
         <View style={styles.profile}>
-          <Image source={{ uri: contact.imageUri }} style={[styles.avatar]} />
+          <Image
+            source={{
+              uri: contact.imageUri
+                ? contact.imageUri
+                : `https://ui-avatars.com/api/?name=${contact.fullName}&size=20&background=ffffff&color=003380&rounded=true`,
+            }}
+            style={[styles.avatar]}
+          />
         </View>
         <View>
           <Text style={styles.name}>{contact.fullName}</Text>
@@ -66,10 +73,17 @@ const ContactInfo = ({ route }) => {
           <View></View>
         </View>
         <View style={styles.landline}>
-          <Entypo name="landline" size={24} color="black" />
+          {contact.landlineNumber ? (
+            <Entypo name="landline" size={24} color="black" />
+          ) : null}
+
           <View>
-            <Text style={{ fontSize: 20 }}>+91 {contact.landlineNumber}</Text>
-            <Text style={{ fontSize: 15 }}>Landline</Text>
+            {contact.landlineNumber ? (
+              <Text style={{ fontSize: 20 }}>+91 {contact.landlineNumber}</Text>
+            ) : null}
+            {contact.landlineNumber ? (
+              <Text style={{ fontSize: 15 }}>Landline</Text>
+            ) : null}
           </View>
 
           <View></View>

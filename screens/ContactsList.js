@@ -110,13 +110,6 @@ const ContactsList = ({ route }) => {
     </View>
   );
 
-  const onSwipeValueChange = (swipeData) => {
-    const { key, value } = swipeData;
-    if (value !== 0) {
-      closeAllSwipeables(swipeableRefs.current[key]);
-    }
-  };
-
   return (
     <View style={styles.container}>
       <SwipeListView

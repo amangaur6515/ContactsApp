@@ -23,10 +23,9 @@ import TabNavigator from "./components/TabNavigator";
 const Drawer = createDrawerNavigator();
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+import { getContactsByPhoneNumber } from "./db/contacts";
 
 const App = () => {
-  const [contacts, setContacts] = useState([]);
-
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -42,67 +41,6 @@ const App = () => {
     <>
       <StatusBar backgroundColor="#1a75ff" />
       <NavigationContainer>
-        {/* <Stack.Navigator 
-            screenOptions={
-              {
-                headerTintColor:"#1a75ff",
-                headerStyle:{
-                  backgroundColor:"white"
-                }
-              } 
-            }
-            
-            
-          >
-            <Stack.Screen name='Contacts List' component={ContactsList} 
-              options={{
-                headerTitle: () => (
-                  <SearchBar/>
-                ),
-              }}
-            />
-
-            <Stack.Screen name='Add Contacts' component={AddContacts} 
-              options={
-                {
-                  headerRight:()=>{
-                    return(
-                      <FavouriteIcon/>
-                    );
-                  }
-                }
-              }
-            />
-            
-          </Stack.Navigator> */}
-
-        {/* <Tab.Navigator
-            barStyle={{backgroundColor:"white",paddingBottom:5  }} // Set activeBackgroundColor to transparent,
-            activeColor="blue"
-           
-            
-          >
-            
-            <Tab.Screen name='Contacts' component={StackNavigator}
-            options={{
-              tabBarLabel:"Contacts",
-              tabBarIcon: ({ color }) => (
-                <MaterialIcons name="contacts" size={30} color="blue" style={styles.tabBarIcon}/>
-              ),
-              
-            }}
-             />
-            <Tab.Screen name='Favourites' component={Favourites} 
-              options={{
-                
-                tabBarLabel:"Favourites",
-                tabBarIcon: ({ color }) => (
-                  <MaterialIcons name="favorite" size={30} color="blue" style={styles.tabBarIcon}/>
-                )
-              }}
-            />
-          </Tab.Navigator> */}
-
         <Drawer.Navigator>
           <Drawer.Screen
             name="Home"

@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  Platform,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Octicons } from "@expo/vector-icons";
@@ -69,6 +70,33 @@ const AddContacts = ({ route }) => {
     })();
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== "web") {
+        const cameraStatus = await ImagePicker.requestCameraPermissionsAsync();
+        if (cameraStatus.status !== "granted") {
+          alert("Sorry, we need camera permissions to make this work!");
+        }
+      }
+    })();
+  }, []);
+
+  const takePhoto = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    console.log(result);
+    if (!result.canceled) {
+      const imageObject = result.assets[0];
+      const imageUri = imageObject.uri;
+
+      setImage(imageUri);
+    }
+  };
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -91,7 +119,7 @@ const AddContacts = ({ route }) => {
   return (
     <View style={styles.container}>
       <View style={styles.formContainer}>
-        <TouchableOpacity onPress={pickImage} activeOpacity={0.8}>
+        <TouchableOpacity onPress={takePhoto} activeOpacity={0.8}>
           <View style={styles.imageUploader}>
             {image ? (
               <Image source={{ uri: image }} style={[styles.avatar]} />

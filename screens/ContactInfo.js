@@ -11,6 +11,9 @@ const ContactInfo = ({ route }) => {
   const handleCall = () => {
     Linking.openURL(`tel:${contact.phoneNumber}`);
   };
+  const handleText = () => {
+    Linking.openURL(`sms:${contact.phoneNumber}`);
+  };
   console.log(contact);
   return (
     <View style={styles.container}>
@@ -41,7 +44,7 @@ const ContactInfo = ({ route }) => {
           <Text style={{ fontWeight: "500" }}>Call</Text>
         </View>
         <View style={styles.iconAndNameContainer}>
-          <TouchableOpacity activeOpacity={0.5}>
+          <TouchableOpacity activeOpacity={0.5} onPress={handleText}>
             <View style={styles.icons}>
               <AntDesign name="message1" size={30} color="black" />
             </View>
@@ -51,7 +54,7 @@ const ContactInfo = ({ route }) => {
         </View>
 
         <View style={styles.iconAndNameContainer}>
-          <TouchableOpacity activeOpacity={0.5}>
+          <TouchableOpacity activeOpacity={0.5} onPress={handleCall}>
             <View style={styles.icons}>
               <Feather name="video" size={30} color="black" />
             </View>

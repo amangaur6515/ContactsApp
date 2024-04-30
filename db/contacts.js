@@ -108,6 +108,10 @@ export const deleteContact = async (db, id) => {
 };
 
 export const editContact = async (db, contact) => {
+  const selectQuery = "SELECT * FROM Contacts2 WHERE phoneNumber = ?";
+  const updateQuery =
+    "UPDATE Contacts2 SET imageUri = ?, fullName = ?, phoneNumber = ?, landlineNumber = ?, isFavourite = ? WHERE id = ?;";
+
   const { id, imageUri, fullName, phoneNumber, landlineNumber, isFavourite } =
     contact;
   const values = [
@@ -121,11 +125,27 @@ export const editContact = async (db, contact) => {
 
   try {
     await db.transaction(async (tx) => {
+      // Check if a contact with the phone number already exists
       await tx.executeSql(
-        "UPDATE Contacts2 SET imageUri = ?, fullName = ?, phoneNumber = ?, landlineNumber = ?, isFavourite = ? WHERE id = ?;",
-        values
+        selectQuery,
+        [contact.phoneNumber],
+        async (_, { rows }) => {
+          if (rows.length > 0) {
+            console.log("Contact with this phone number already exists");
+          } else {
+            await tx.executeSql(
+              updateQuery,
+              values,
+              () => {
+                console.log("Contact edited successfully");
+              },
+              () => {
+                console.log("Error editing contact");
+              }
+            );
+          }
+        }
       );
-      console.log("Contact updated successfully");
     });
   } catch (error) {
     console.error("Failed to update contact:", error);

@@ -7,6 +7,7 @@ import {
   Image,
   Platform,
   Modal,
+  Alert,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Octicons } from "@expo/vector-icons";

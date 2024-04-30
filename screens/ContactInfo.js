@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Linking } from "react-native";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
@@ -8,6 +8,9 @@ import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 
 const ContactInfo = ({ route }) => {
   const { contact } = route.params;
+  const handleCall = () => {
+    Linking.openURL(`tel:${contact.phoneNumber}`);
+  };
   console.log(contact);
   return (
     <View style={styles.container}>
@@ -29,7 +32,7 @@ const ContactInfo = ({ route }) => {
 
       <View style={styles.iconContainer}>
         <View style={styles.iconAndNameContainer}>
-          <TouchableOpacity activeOpacity={0.5}>
+          <TouchableOpacity activeOpacity={0.5} onPress={handleCall}>
             <View style={styles.icons}>
               <Ionicons name="call-outline" size={30} color="black" />
             </View>

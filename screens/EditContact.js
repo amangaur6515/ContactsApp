@@ -5,6 +5,8 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  Platform,
+  Modal,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { Octicons } from "@expo/vector-icons";
@@ -16,8 +18,10 @@ import { addContacts, editContact } from "../db/contacts";
 import db from "../db/db";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const EditContact = ({ route }) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [fullName, setFullName] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
   const [landlineNumber, setLandlineNumber] = useState("");
@@ -81,6 +85,33 @@ const EditContact = ({ route }) => {
     })();
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== "web") {
+        const cameraStatus = await ImagePicker.requestCameraPermissionsAsync();
+        if (cameraStatus.status !== "granted") {
+          alert("Sorry, we need camera permissions to make this work!");
+        }
+      }
+    })();
+  }, []);
+
+  const takePhoto = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    console.log(result);
+    setIsModalVisible(false);
+    if (!result.canceled) {
+      const imageObject = result.assets[0];
+      const imageUri = imageObject.uri;
+      setImage(imageUri);
+    }
+  };
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -88,6 +119,7 @@ const EditContact = ({ route }) => {
       aspect: [4, 3],
       quality: 1,
     });
+    setIsModalVisible(false);
     //console.log(result);
     if (!result.canceled) {
       const imageObject = result.assets[0]; // Access the first object in assets
@@ -107,6 +139,54 @@ const EditContact = ({ route }) => {
 
   return (
     <View style={styles.mainContainer}>
+      <Modal
+        visible={isModalVisible}
+        animationType="slide"
+        onRequestClose={() => {
+          setIsModalVisible(!isModalVisible);
+        }}
+        transparent={true}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <View style={styles.crossIcon}>
+              <Entypo
+                name="cross"
+                size={24}
+                color="black"
+                onPress={() => setIsModalVisible(false)}
+              />
+            </View>
+            <View style={styles.choicesContainer}>
+              <View></View>
+              <View style={styles.cameraContainer}>
+                <Entypo
+                  name="camera"
+                  size={60}
+                  color="blue"
+                  onPress={takePhoto}
+                />
+                <Text style={{ fontWeight: "bold" }}>Camera</Text>
+              </View>
+
+              <View></View>
+              <View></View>
+              <View></View>
+              <View style={styles.galleryContainer}>
+                <MaterialIcons
+                  name="photo-library"
+                  size={60}
+                  color="blue"
+                  onPress={pickImage}
+                />
+                <Text style={{ fontWeight: "bold" }}>Gallery</Text>
+              </View>
+
+              <View></View>
+            </View>
+          </View>
+        </View>
+      </Modal>
       <View style={styles.favouriteIconContainer}>
         <View>
           <TouchableOpacity activeOpacity={0.5} onPress={handleIsFavourite}>
@@ -121,7 +201,10 @@ const EditContact = ({ route }) => {
 
       <View style={styles.container}>
         <View style={styles.formContainer}>
-          <TouchableOpacity onPress={pickImage} activeOpacity={0.8}>
+          <TouchableOpacity
+            onPress={() => setIsModalVisible(true)}
+            activeOpacity={0.8}
+          >
             <View style={styles.imageUploader}>
               {image ? (
                 <Image source={{ uri: image }} style={[styles.avatar]} />
@@ -268,6 +351,37 @@ const styles = StyleSheet.create({
   mainContainer: {
     backgroundColor: "white",
     flex: 1,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 20,
+    width: "100%", // Set the width of the modal content
+    height: "40%", // Set the height of the modal content
+  },
+  crossIcon: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+  },
+  choicesContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    padding: "20%",
+  },
+  cameraContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  galleryContainer: {
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

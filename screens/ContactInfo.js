@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Feather } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const ContactInfo = ({ route }) => {
   const { contact } = route.params;
@@ -14,7 +14,7 @@ const ContactInfo = ({ route }) => {
   const handleText = () => {
     Linking.openURL(`sms:${contact.phoneNumber}`);
   };
-  console.log(contact);
+
   return (
     <View style={styles.container}>
       <View style={styles.infoContainer}>

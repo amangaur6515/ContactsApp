@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, FlatList, TextInput } from "react-native";
 import React from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
 import { useState, useEffect } from "react";
 import db, { initDatabase } from "../db/db";
 import { getContacts } from "../db/contacts";
@@ -39,7 +39,7 @@ const Favourites = () => {
         a.fullName.localeCompare(b.fullName)
       );
       setContacts(sortedContacts);
-      console.log("Favourite Contacts loaded:", sortedContacts);
+      //console.log("Favourite Contacts loaded:", sortedContacts);
     } catch (error) {
       console.error(error);
     }

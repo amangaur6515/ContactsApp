@@ -1,13 +1,5 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Pressable,
-  TouchableOpacity,
-  FlatList,
-  Alert,
-} from "react-native";
-import React, { useRef } from "react";
+import { View, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import React from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useState, useEffect } from "react";
@@ -93,7 +85,7 @@ const ContactsList = ({ route }) => {
     navigation.navigate("Edit Contact", { contact: item });
   };
 
-  const renderHiddenItem = ({ item }, rowMap) => (
+  const renderHiddenItem = ({ item }) => (
     <View style={[styles.rowBack]}>
       <TouchableOpacity
         style={[styles.deleteContainer]}

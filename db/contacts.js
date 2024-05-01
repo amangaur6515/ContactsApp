@@ -33,28 +33,6 @@ export const getContacts = async (db) => {
   }
 };
 
-// export const addContacts = async (db, contact) => {
-//   const values = [
-//     contact.imageUri,
-//     contact.fullName,
-//     contact.phoneNumber,
-//     contact.landlineNumber,
-//     contact.isFavourite,
-//   ];
-
-//   try {
-//     await db.transaction(async (tx) => {
-//       await tx.executeSql(
-//         "INSERT INTO Contacts2 (imageUri, fullName, phoneNumber, landlineNumber,isFavourite) VALUES (?, ?, ?, ?,?);",
-//         values
-//       );
-//       console.log("Insert successful");
-//     });
-//   } catch (error) {
-//     console.error("Failed to insert data:", error);
-//   }
-// };
-
 export const addContacts = async (db, contact) => {
   const selectQuery = "SELECT * FROM Contacts2 WHERE phoneNumber = ?";
   const insertQuery =
@@ -125,25 +103,14 @@ export const editContact = async (db, contact) => {
 
   try {
     await db.transaction(async (tx) => {
-      // Check if a contact with the phone number already exists
       await tx.executeSql(
-        selectQuery,
-        [contact.phoneNumber],
-        async (_, { rows }) => {
-          if (rows.length > 0) {
-            console.log("Contact with this phone number already exists");
-          } else {
-            await tx.executeSql(
-              updateQuery,
-              values,
-              () => {
-                console.log("Contact edited successfully");
-              },
-              () => {
-                console.log("Error editing contact");
-              }
-            );
-          }
+        updateQuery,
+        values,
+        () => {
+          console.log("Contact edited successfully");
+        },
+        () => {
+          console.log("Error editing contact");
         }
       );
     });

@@ -1,19 +1,10 @@
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import {
-  StyleSheet,
-  Text,
-  View,
-  StatusBar,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+
+import { StyleSheet, StatusBar } from "react-native";
 
 import { useEffect } from "react";
 import db, { initDatabase } from "./db/db";
-import { useState } from "react";
 
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import Favourites from "./screens/Favourites";
 
 import { createDrawerNavigator } from "@react-navigation/drawer";
@@ -21,9 +12,6 @@ import { gestureHandlerRootHOC } from "react-native-gesture-handler";
 import TabNavigator from "./components/TabNavigator";
 
 const Drawer = createDrawerNavigator();
-const Tab = createMaterialBottomTabNavigator();
-const Stack = createNativeStackNavigator();
-import { getContactsByPhoneNumber } from "./db/contacts";
 
 const App = () => {
   useEffect(() => {
@@ -62,13 +50,6 @@ const App = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  tabBarIcon: {
-    width: 100, // Set the width to increase icon size
-    height: 40, // Set the height to increase icon size
-    textAlign: "center", // Center the icon horizontally
-    lineHeight: 30, // Center the icon vertically
-  },
-});
+const styles = StyleSheet.create({});
 
 export default gestureHandlerRootHOC(App);

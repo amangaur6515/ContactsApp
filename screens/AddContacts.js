@@ -26,7 +26,7 @@ const AddContacts = ({ route }) => {
   const [mobileNumber, setMobileNumber] = useState("");
   const [landlineNumber, setLandlineNumber] = useState("");
   const { data } = route.params;
-  //console.log(data)
+
   const navigation = useNavigation();
 
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
@@ -56,7 +56,7 @@ const AddContacts = ({ route }) => {
         landlineNumber,
         isFavourite: data ? 1 : 0,
       };
-      console.log(contact);
+
       addContacts(db, contact);
       setFullName("");
       setMobileNumber("");
@@ -92,7 +92,7 @@ const AddContacts = ({ route }) => {
       aspect: [4, 3],
       quality: 1,
     });
-    console.log(result);
+
     setIsModalVisible(false);
     if (!result.canceled) {
       const imageObject = result.assets[0];
@@ -109,11 +109,11 @@ const AddContacts = ({ route }) => {
       quality: 1,
     });
     setIsModalVisible(false);
-    console.log(result);
+
     if (!result.canceled) {
       const imageObject = result.assets[0]; // Access the first object in assets
       const imageUri = imageObject.uri; // Extract the URI from the object
-      console.log("Image URI:", imageUri);
+
       setImage(imageUri);
     }
   };
@@ -234,11 +234,6 @@ const AddContacts = ({ route }) => {
             <Text style={styles.buttonTitle}>Add</Text>
           </TouchableOpacity>
         </View>
-
-        {/* {
-                
-                image && <Image source={{uri:image}} style={{width:100,height:100}} />
-            } */}
       </View>
     </View>
   );
@@ -328,8 +323,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 20,
     borderRadius: 20,
-    width: "100%", // Set the width of the modal content
-    height: "40%", // Set the height of the modal content
+    width: "100%",
+    height: "40%",
   },
   crossIcon: {
     flexDirection: "row",
